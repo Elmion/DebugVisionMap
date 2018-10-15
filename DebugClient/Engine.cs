@@ -13,6 +13,8 @@ using TriangleNet;
 using TriangleNet.Rendering;
 using TriangleNet.Meshing;
 using DebugClient.AStarSearch;
+using System.Collections;
+
 namespace DebugClient
 {
     public partial class Engine : Form
@@ -41,7 +43,9 @@ namespace DebugClient
             IRenderControl control = new TriangleNet.Rendering.GDI.RenderControl();
 
             InitializeRenderControl((Control)control);
+
             renderManager.Initialize(control);
+
             ((TriangleNet.Rendering.GDI.RenderControl)control).OnRenderLeftClick += UpdateStartPoint;
             ((TriangleNet.Rendering.GDI.RenderControl)control).OnRenderRightClick += UpdateEndPoint;
 
@@ -49,16 +53,7 @@ namespace DebugClient
             this.end = new Vertex(0, 35);
             UpdateMesh(this.start, this.end);
 
-            var r = Node.CreateListNodes(ref mesh);
 
-            Searchmap a = new Searchmap { Nodes = r, StartNode = r[0], EndNode = r[1] } ;
-            a.AstarSearch();
-            var e = a.GetShortestPathAstart();
-
-
-            //input = new BoxWithHole().Generate(new Vertex(-25,-25),new Vertex(0,35));
-            //renderManager.Set(input);
-            //Triangulate();
 
             time = new Timer();
             time.Interval = 1;
@@ -96,7 +91,6 @@ namespace DebugClient
                 item.Draw(g);
             }
         }
-
         private void Engine_MouseClick(object sender, MouseEventArgs e)
         {
             if(e.Button == MouseButtons.Left)
@@ -119,6 +113,19 @@ namespace DebugClient
             input = new BoxWithHole().Generate(start, end);
             renderManager.Set(input);
             Triangulate();
+
+            var r = Node.CreateListNodes(ref mesh);
+            Searchmap a = new Searchmap { Nodes = r, StartNode = r[0], EndNode = r[1] };
+
+            var e = a.GetShortestPathAstart(r);
+            var points = e.Select(x => new TriangleNet.Geometry.Point(x.Point.X, x.Point.Y));
+            List<Edge> edges = new List<Edge>();
+            for (int i = 0; i < points.Count() - 1; i++)
+            {
+                edges.Add(new Edge(i, i + 1));
+            }
+
+            renderManager.Set(points.ToArray(), edges, false, true);
         }
         private void InitializeRenderControl(Control control)
         {
@@ -174,12 +181,12 @@ namespace DebugClient
 
             input.Add(start);
             input.Add(end);
-
             input.Add(new Contour(CreateRectangle(new TriangleNet.Geometry.Rectangle(-20, -20, 40, 40), 1)), true);
             input.Add(new Contour(CreateRectangle(new TriangleNet.Geometry.Rectangle(-15, 30, 10, 10), 1)), true);
             input.Add(new Contour(CreateRectangle(new TriangleNet.Geometry.Rectangle(-50, -50, 100, 100), 1)), false);
             return input;
         }
+
     }
    
 

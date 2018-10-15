@@ -130,6 +130,7 @@ namespace TriangleNet.Rendering
             RenderLayers[4].IsEnabled = true;
         }
 
+
         public void Add(float[] data)
         {
             // Add function values for filled mesh.

@@ -47,7 +47,7 @@ namespace TriangleNet.Rendering.GDI
 
             //renderColors = ColorManager.Default();
 
-            this.BackColor = Color.Black;
+            this.BackColor = Color.White;
 
             context = BufferedGraphicsManager.Current;// new BufferedGraphicsContext();
 
