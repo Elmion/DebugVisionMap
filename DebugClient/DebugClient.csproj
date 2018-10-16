@@ -53,6 +53,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AStarSearch\AStar.cs" />
+    <Compile Include="AStarSearch\TestSight.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AStarSearch\TestSight.designer.cs">
+      <DependentUpon>TestSight.cs</DependentUpon>
+    </Compile>
     <Compile Include="Engine.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,6 +194,9 @@
     <Compile Include="Triangle\Voronoi\Legacy\VoronoiRegion.cs" />
     <Compile Include="Triangle\Voronoi\StandardVoronoi.cs" />
     <Compile Include="Triangle\Voronoi\VoronoiBase.cs" />
+    <EmbeddedResource Include="AStarSearch\TestSight.resx">
+      <DependentUpon>TestSight.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Engine.resx">
       <DependentUpon>Engine.cs</DependentUpon>
     </EmbeddedResource>
@@ -213,6 +222,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

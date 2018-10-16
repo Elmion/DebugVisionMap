@@ -39,19 +39,20 @@ namespace DebugClient
             Instance = this;
             this.DoubleBuffered = true;
 
-            renderManager = new RenderManager();
-            IRenderControl control = new TriangleNet.Rendering.GDI.RenderControl();
+            new TriangleNet.Geometry.Rectangle(10,10,10,10).
+            //renderManager = new RenderManager();
+            //IRenderControl control = new TriangleNet.Rendering.GDI.RenderControl();
 
-            InitializeRenderControl((Control)control);
+            //InitializeRenderControl((Control)control);
 
-            renderManager.Initialize(control);
+            //renderManager.Initialize(control);
 
-            ((TriangleNet.Rendering.GDI.RenderControl)control).OnRenderLeftClick += UpdateStartPoint;
-            ((TriangleNet.Rendering.GDI.RenderControl)control).OnRenderRightClick += UpdateEndPoint;
+            //((TriangleNet.Rendering.GDI.RenderControl)control).OnRenderLeftClick += UpdateStartPoint;
+            //((TriangleNet.Rendering.GDI.RenderControl)control).OnRenderRightClick += UpdateEndPoint;
 
-            this.start = new Vertex(-25, -25);
-            this.end = new Vertex(0, 35);
-            UpdateMesh(this.start, this.end);
+            //this.start = new Vertex(-25, -25);
+            //this.end = new Vertex(0, 35);
+            //UpdateMesh(this.start, this.end);
 
 
 
@@ -62,7 +63,6 @@ namespace DebugClient
             Hero = CreateSceneObject<Hero>();
             Hero.Speed = 1;
           
-
             time.Start();
 
         }
