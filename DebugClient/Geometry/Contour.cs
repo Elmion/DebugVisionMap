@@ -8,12 +8,9 @@ using System.Collections.Generic;
 using System.Drawing;
 namespace DebugClient.Geometry
 {
-
-
     public class Contour
     {
         int marker;
-
         bool convex;
 
         /// <summary>
@@ -39,7 +36,6 @@ namespace DebugClient.Geometry
             : this(points, marker, false)
         {
         }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Contour" /> class.
         /// </summary>

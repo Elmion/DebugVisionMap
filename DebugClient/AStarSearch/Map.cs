@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DebugClient.Geometry;
 using System.Drawing;
+using UnityEngine;
 
 namespace DebugClient.AStarSearch
 {
@@ -14,6 +15,12 @@ namespace DebugClient.AStarSearch
         public List<Edge> Edges { get; private set; }
 
         List<Contour> Conturs;
+        public Map()
+        {
+            Conturs = new List<Contour>();
+            Vertexs = new List<Vertex>();
+            Edges = new List<Edge>();
+        }
 
         public void AddCountur(Contour cnt)
         {
@@ -32,19 +39,19 @@ namespace DebugClient.AStarSearch
                 Edges.Add(new Edge(pointFirst, pointSecond));
             }
             //Последнее ребро из конца в начало
-            Edge newEdge = new Edge(
+            Edges.Add(new Edge(
             Vertexs.FindIndex(y => y.X == cnt.Points[0].X && y.Y == cnt.Points[0].Y),
-            Vertexs.FindIndex(y => y.X == cnt.Points[cnt.Points.Count - 1].X && y.Y == cnt.Points[cnt.Points.Count - 1].Y));
+            Vertexs.FindIndex(y => y.X == cnt.Points[cnt.Points.Count - 1].X && y.Y == cnt.Points[cnt.Points.Count - 1].Y)));
         }
         public void RemoveCountur(Contour cnt)
         {
             throw new NotImplementedException();
         }
-        public Line[] GetLines()
+        public Line[]  GetLines()
         {
             return Edges.Select(x => new Line(Vertexs[x.P0], Vertexs[x.P1])).Cast<Line>().ToArray();
         }
-        public Contour GetSightAtPoint(Point p)
+        public Contour GetSightAtPoint(Vector2 p)
         {
             Line[] lines = GetLines();
             List<double> uniqueAngles = new List<double>();
@@ -52,7 +59,7 @@ namespace DebugClient.AStarSearch
             for (var j = 0; j < Vertexs.Count; j++)
             {
                 var uniquePoint = Vertexs[j];
-                var angle = Math.Atan2(uniquePoint.Y - (double)p.Y, uniquePoint.X - (double)(p.X));
+                var angle = Math.Atan2(uniquePoint.Y - (double)p.y, uniquePoint.X - (double)(p.x));
                 //uniquePoint.angle = angle;
                 uniqueAngles.AddRange(new double[] {angle - 0.0000001, angle, angle + 0.0000001 });
             }
@@ -68,7 +75,7 @@ namespace DebugClient.AStarSearch
                 var dy = Math.Sin(angle);
 
                 // Ray from center of screen to mouse
-                var ray = new Line( new Vertex(p.X, p.Y),  new Vertex((double)p.X + dx, (double)p.Y + dy) );
+                var ray = new Line( new Vertex(p.x, p.y),  new Vertex((double)p.x + dx, (double)p.y + dy) );
 
                 // Find CLOSEST intersection
                 Vertex closestIntersect = null;

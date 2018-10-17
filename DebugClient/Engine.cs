@@ -22,6 +22,7 @@ namespace DebugClient
         private Hero Hero;
         private Vertex start;
         private Vertex end;
+        Map m;
 
         public Engine()
         {
@@ -30,7 +31,7 @@ namespace DebugClient
             Instance = this;
             this.DoubleBuffered = true;
 
-            Map m = new Map();
+            m = new Map();
             m.AddCountur(new Contour(new List<Vertex> { new Vertex(0, 0),
                                                         new Vertex(640, 0),
                                                         new Vertex(640, 360),
@@ -47,8 +48,8 @@ namespace DebugClient
                                                        }));
             m.AddCountur(new Contour(new List<Vertex> { new Vertex(200, 260),
                                                         new Vertex(220, 150),
-                                                        new Vertex(350, 320),
-                                                        new Vertex(300, 200) 
+                                                        new Vertex(300, 200),
+                                                        new Vertex(350, 320)
                                                        }));
             m.AddCountur(new Contour(new List<Vertex> {new Vertex(340, 60),
                                                        new Vertex(360, 40),
@@ -65,7 +66,7 @@ namespace DebugClient
                                                         new Vertex(400, 95)
                                                        }));
 
-
+            var dffff = Node.CreateListNodes(ref m);
 
             time = new Timer();
             time.Interval = 1;
@@ -93,10 +94,31 @@ namespace DebugClient
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-            UpdateGraphic(e.Graphics);
-        }
-        private void UpdateGraphic(System.Drawing.Graphics g)
-        {
+
+
+
+            System.Drawing.Graphics g = e.Graphics;
+
+
+
+            var d = Node.GetEnlargedPolygon(m.Vertexs.Select(x => x.ToPointF).ToList(), 1.01f);
+            var con = m.GetSightAtPoint(new Vector2(d[11].X, d[11].Y));
+            List<double> ff = new List<double>(); 
+            for (int i = 0; i < con.Points.Count-1; i++)
+            {
+                ff.Add(new Line(con.Points[i], con.Points[i + 1]).Length);
+            } 
+
+            //Уровень
+            Line[] lines = m.GetLines();
+            for (var i = 0; i < lines.Length; i++)
+            {
+                g.DrawLine(Pens.Black, lines[i].p0.ToPoint, lines[i].p1.ToPoint);
+            }
+            //Видимость
+            // g.FillPolygon(Brushes.Salmon, m.GetSightAtPoint(Hero.Position).Points.Select(x => x.ToPoint).ToArray());
+            g.FillPolygon(Brushes.Salmon, con.Points.Select(x => x.ToPoint).ToArray());
+            //Другие объекты
             foreach (SceneObject item in SceneObjects)
             {
                 item.Draw(g);
@@ -112,12 +134,10 @@ namespace DebugClient
         private void UpdateStartPoint(Vertex start)
         {
             this.start = start;
-           // UpdateMesh(this.start, this.end);
         }
         private void UpdateEndPoint(Vertex end)
         {
             this.end = end;
-            //UpdateMesh(this.start, this.end);
         }
         //private void UpdateMesh(Vertex start,Vertex end)
         //{

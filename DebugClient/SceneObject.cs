@@ -10,7 +10,7 @@ namespace DebugClient
 {
     abstract class SceneObject: IUpdate
     {
-       protected Vector2 Position;
+       public Vector2 Position { get; set; }
        public SceneObject()
         {
         }

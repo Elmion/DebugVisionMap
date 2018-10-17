@@ -54,12 +54,6 @@
   <ItemGroup>
     <Compile Include="AStarSearch\AStar.cs" />
     <Compile Include="AStarSearch\Map.cs" />
-    <Compile Include="AStarSearch\TestSight.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AStarSearch\TestSight.designer.cs">
-      <DependentUpon>TestSight.cs</DependentUpon>
-    </Compile>
     <Compile Include="Engine.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,9 +70,6 @@
     <Compile Include="Geometry\Edge.cs" />
     <Compile Include="Geometry\Interfaces.cs" />
     <Compile Include="Geometry\Vertex.cs" />
-    <EmbeddedResource Include="AStarSearch\TestSight.resx">
-      <DependentUpon>TestSight.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Engine.resx">
       <DependentUpon>Engine.cs</DependentUpon>
     </EmbeddedResource>

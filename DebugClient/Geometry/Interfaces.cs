@@ -28,6 +28,6 @@ namespace DebugClient.Geometry
     }
     public interface IDraw
         {
-            void Draw( Gr)
+                void Draw();
         }
 }

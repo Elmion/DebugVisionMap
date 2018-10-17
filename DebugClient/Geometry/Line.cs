@@ -10,12 +10,14 @@ namespace DebugClient.Geometry
     {
         public Vertex p0;
         public Vertex p1;
-
+        public double Length { get{ return Math.Sqrt(Math.Pow(p0.X - p1.X, 2) + Math.Pow(p0.Y - p1.Y, 2)); }
+}
         public Line (Vertex p0, Vertex p1)
         {
             this.p0 = p0;
             this.p1 = p1;
         }
+
         public Vertex getIntersectionWithRay(Line segment, out double howClose)
         {
             howClose = double.NaN;
@@ -59,5 +61,6 @@ namespace DebugClient.Geometry
                  (r_py + r_dy * T1)
             );
         }
+
     }
 }
