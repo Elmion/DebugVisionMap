@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TriangleNet;
-using TriangleNet.Geometry;
+using DebugClient.Geometry;
 
 namespace DebugClient.AStarSearch
 {
@@ -124,6 +123,28 @@ namespace DebugClient.AStarSearch
             }
             return nodes;
         }
+        public static List<Node> CreateListNodes(ref Segment[] map)
+        {
+            List<Node> nodes = new List<Node>();
+            Vertex[] verx = map.Vertices.ToArray();
+            for (int i = 0; i < verx.Length; i++)
+            {
+                Node node = new Node { Id = i, Point = verx[i], Visited = false, Connections = new List<SearchEdge>(), MinCostToStart = null, NearestToStart = null };
+                List<Edge> list = map.Edges.Where(x => x.P0 == i || x.P1 == i).ToList();
+
+                foreach (Edge item in list)
+                {
+                    node.Connections.Add(new SearchEdge
+                    {
+                        ConnectedNode = item.P0 == node.Id ? item.P1 : item.P0,
+                        Cost = Math.Sqrt(Math.Pow(verx[item.P0].X - verx[item.P1].X, 2) + Math.Pow(verx[item.P0].Y - verx[item.P1].Y, 2)),
+                        Length = Math.Sqrt(Math.Pow(verx[item.P0].X - verx[item.P1].X, 2) + Math.Pow(verx[item.P0].Y - verx[item.P1].Y, 2))
+                    });
+                }
+                nodes.Add(node);
+            }
+            return nodes;
+        }
         internal void ConnectClosestNodes(ref Mesh map)
         {
         }
@@ -132,6 +153,28 @@ namespace DebugClient.AStarSearch
         {
             // return Math.Sqrt(Math.Pow(Point.X - end.Point.X, 2) + Math.Pow(Point.Y - end.Point.Y, 2));
             return Math.Sqrt(Math.Pow(Point.X - end.Point.X, 2) + Math.Pow(Point.Y - end.Point.Y, 2));
+        }
+        private static bool IsPointInPolygon(Point point, List<Vertex> poly)
+        {
+            bool inside = false;
+
+            double x = point.x;
+            double y = point.y;
+
+            int count = poly.Count;
+
+            for (int i = 0, j = count - 1; i < count; i++)
+            {
+                if (((poly[i].y < y && poly[j].y >= y) || (poly[j].y < y && poly[i].y >= y))
+                    && (poly[i].x <= x || poly[j].x <= x))
+                {
+                    inside ^= (poly[i].x + (y - poly[i].y) / (poly[j].y - poly[i].y) * (poly[j].x - poly[i].x) < x);
+                }
+
+                j = i;
+            }
+
+            return inside;
         }
     }
 

@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace TriangleNet.Geometry
+namespace DebugClient.Geometry
 {
     public interface IEdge
     {
@@ -26,4 +26,8 @@ namespace TriangleNet.Geometry
         /// </remarks>
         int Label { get; }
     }
+    public interface IDraw
+        {
+            void Draw( Gr)
+        }
 }
