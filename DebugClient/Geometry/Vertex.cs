@@ -48,6 +48,11 @@ namespace DebugClient.Geometry
             X = x;
             Y = y;
         }
+        public Vertex(float x, float y)
+        {
+            X = x;
+            Y = y;
+        }
 
 
     }

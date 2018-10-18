@@ -13,8 +13,7 @@ namespace DebugClient.AStarSearch
     {
         public List<Vertex> Vertexs { get; private set; }
         public List<Edge> Edges { get; private set; }
-
-        List<Contour> Conturs;
+        public List<Contour> Conturs { get; private set; }
         public Map()
         {
             Conturs = new List<Contour>();
@@ -46,6 +45,21 @@ namespace DebugClient.AStarSearch
         public void RemoveCountur(Contour cnt)
         {
             throw new NotImplementedException();
+        }
+        public void PointsNode()
+        {
+            List<Vertex> OffesetVertexCountur = new List<Vertex>();
+            List<Vertex> tets = new List<Vertex>();
+            Conturs.ForEach(x => OffesetVertexCountur.AddRange(x.Offset(1.01f)));
+
+            for (int i = 0; i < OffesetVertexCountur.Count; i++)
+            {
+                Contour c = GetSightAtPoint(OffesetVertexCountur[i].ToVecto2);
+                for (int j = 0; j < OffesetVertexCountur.Count; j++)
+                {
+                    if (c.IsPointInPolygon(OffesetVertexCountur[j])) tets.Add(OffesetVertexCountur[j]);
+                }
+            }
         }
         public Line[]  GetLines()
         {

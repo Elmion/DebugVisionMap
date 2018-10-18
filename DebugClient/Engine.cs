@@ -94,20 +94,7 @@ namespace DebugClient
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-
-
-
             System.Drawing.Graphics g = e.Graphics;
-
-
-
-            var d = Node.GetEnlargedPolygon(m.Vertexs.Select(x => x.ToPointF).ToList(), 1.01f);
-            var con = m.GetSightAtPoint(new Vector2(d[11].X, d[11].Y));
-            List<double> ff = new List<double>(); 
-            for (int i = 0; i < con.Points.Count-1; i++)
-            {
-                ff.Add(new Line(con.Points[i], con.Points[i + 1]).Length);
-            } 
 
             //Уровень
             Line[] lines = m.GetLines();
@@ -115,9 +102,16 @@ namespace DebugClient
             {
                 g.DrawLine(Pens.Black, lines[i].p0.ToPoint, lines[i].p1.ToPoint);
             }
+
             //Видимость
             // g.FillPolygon(Brushes.Salmon, m.GetSightAtPoint(Hero.Position).Points.Select(x => x.ToPoint).ToArray());
-            g.FillPolygon(Brushes.Salmon, con.Points.Select(x => x.ToPoint).ToArray());
+           // g.FillPolygon(Brushes.Salmon, con.Points.Select(x => x.ToPoint).ToArray());
+            //foreach (var item in con.Points.Select(x => x.ToPoint).ToList())
+            //{
+            //    g.FillPie(Brushes.Blue, new Rectangle((int)item.X - 5 / 2, (int)item.Y - 5 / 2, 5, 5), 0, 360);
+            //}
+            
+           // g.FillPolygon(Brushes.Salmon, con.Points.Select(x => x.ToPoint).ToArray());
             //Другие объекты
             foreach (SceneObject item in SceneObjects)
             {

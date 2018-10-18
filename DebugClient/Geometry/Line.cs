@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using UnityEngine;
 namespace DebugClient.Geometry
 {
     public class Line
@@ -60,6 +60,13 @@ namespace DebugClient.Geometry
                  (r_px + r_dx * T1),
                  (r_py + r_dy * T1)
             );
+        }
+
+        public float Dot(Line line)
+        {
+            Vector2 a = new Vector2((float)(p1.X - p0.X), (float)(p1.Y - p0.Y));
+            Vector2 b = new Vector2((float)(line.p1.X - line.p0.X),(float)(line.p1.Y - line.p0.Y));
+            return Vector2.Dot(a, b);
         }
 
     }
