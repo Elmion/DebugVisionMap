@@ -52,7 +52,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AStarSearch\AStar.cs" />
     <Compile Include="AStarSearch\Map.cs" />
     <Compile Include="Engine.cs">
       <SubType>Form</SubType>

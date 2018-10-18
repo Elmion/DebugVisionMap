@@ -66,7 +66,7 @@ namespace DebugClient
                                                         new Vertex(400, 95)
                                                        }));
 
-            var dffff = Node.CreateListNodes(ref m);
+            //var dffff = Node.CreateListNodes(ref m);
 
             time = new Timer();
             time.Interval = 1;
