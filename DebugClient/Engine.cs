@@ -23,7 +23,7 @@ namespace DebugClient
         private Vertex start;
         private Vertex end;
         Map m;
-
+        List<Node> pathPoints;
         public Engine()
         {
             InitializeComponent();
@@ -102,16 +102,17 @@ namespace DebugClient
             {
                 g.DrawLine(Pens.Black, lines[i].p0.ToPoint, lines[i].p1.ToPoint);
             }
-
+            if(pathPoints != null)
+                g.DrawCurve(Pens.Red, pathPoints.Select(x => x.Point.ToPoint).ToArray());
             //Видимость
             // g.FillPolygon(Brushes.Salmon, m.GetSightAtPoint(Hero.Position).Points.Select(x => x.ToPoint).ToArray());
-           // g.FillPolygon(Brushes.Salmon, con.Points.Select(x => x.ToPoint).ToArray());
+            // g.FillPolygon(Brushes.Salmon, con.Points.Select(x => x.ToPoint).ToArray());
             //foreach (var item in con.Points.Select(x => x.ToPoint).ToList())
             //{
             //    g.FillPie(Brushes.Blue, new Rectangle((int)item.X - 5 / 2, (int)item.Y - 5 / 2, 5, 5), 0, 360);
             //}
-            
-           // g.FillPolygon(Brushes.Salmon, con.Points.Select(x => x.ToPoint).ToArray());
+
+            // g.FillPolygon(Brushes.Salmon, con.Points.Select(x => x.ToPoint).ToArray());
             //Другие объекты
             foreach (SceneObject item in SceneObjects)
             {
@@ -122,7 +123,8 @@ namespace DebugClient
         {
             if(e.Button == MouseButtons.Left)
             {
-                Hero.MoveTo(new Vector2(e.X, e.Y));
+                pathPoints = m.GetNavigationForPoints(new Vertex(Hero.Position.x, Hero.Position.y), new Vertex(e.X, e.Y));
+                //Hero.MoveTo(new Vector2(e.X, e.Y));
             }
         }
         private void UpdateStartPoint(Vertex start)

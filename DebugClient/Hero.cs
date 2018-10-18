@@ -17,7 +17,7 @@ namespace DebugClient
 
         public Hero() : base()
         {
-            Position = new Vector2(0, 0);
+            Position = new Vector2(3, 3);
             NewPosition = Position;
         }
 
