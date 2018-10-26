@@ -15,7 +15,7 @@ namespace DebugClient.AStarSearch
         public List<Edge> Edges { get; private set; }
         public List<Contour> Conturs { get; private set; }
 
-        private List<Vertex> NovigationVertex;
+        public List<Vertex> NovigationVertex;
         private List<Node> CurrentNodesMap;
 
         public Map()
@@ -58,7 +58,7 @@ namespace DebugClient.AStarSearch
             NovigationVertex = new List<Vertex>();
             //делаем смещение от каждого контура на малую величину.
             //получаем список навигационых точек от каждого контура
-            Conturs.ForEach(x => NovigationVertex.AddRange(x.Offset(1.01f)));
+            Conturs.ForEach(x => NovigationVertex.AddRange(x.Offset(1.05f)));
             //ищем какие навигационые точки видит каждая новигационая точка
             for (int i = 0; i < NovigationVertex.Count; i++)
             {
@@ -139,7 +139,7 @@ namespace DebugClient.AStarSearch
             BuildShortestPath(list, node.NearestToStart, genericList);
         }
 
-        public List<Node> GetNavigationForPoints(Vertex start, Vertex end)
+        public List<Node> GetNavigationForPoints(Vertex start, Vertex end, out Contour test)
         {
             //немного дублировный код но ради 2 точек перстраивать всё не есть гуд
             List<Vertex> VertexMap = new List<Vertex>(NovigationVertex);
@@ -155,6 +155,8 @@ namespace DebugClient.AStarSearch
 
             Contour cStart = GetSightAtPoint(VertexMap[startIndex].ToVecto2); // взгляд из точки точки 
             Contour cEnd = GetSightAtPoint(VertexMap[endIndex].ToVecto2); // взгляд из точки точки 
+
+            test = cEnd;
 
             for (int j = 0; j < VertexMap.Count; j++)
             {
@@ -181,7 +183,7 @@ namespace DebugClient.AStarSearch
             List<Node> NodeOUT = new List<Node>(CurrentNodesMap);
             NodeOUT.Add(nodeStart);
             NodeOUT.Add(nodeEnd);
-            return SearchPath(NodeOUT);
+            return null;//  SearchPath(NodeOUT);
         }
         public Line[]  GetLines()
         {

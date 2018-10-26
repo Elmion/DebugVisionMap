@@ -7,7 +7,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using UnityEngine;
+using System.Linq;
 
 namespace DebugClient.Geometry
 {
@@ -148,6 +150,22 @@ namespace DebugClient.Geometry
             }
             return enlarged_points;
         }
+        public List<Vertex> OffsetAtPoint(float offset)
+        {
+            List<Vertex> out_points = new List<Vertex>();
+
+            int num_points = Points.Count;
+
+            for (int j = 2, i = 1, k = 0; j < num_points; j++,i++,k++)
+            {
+                Vector2 v1 = new Line(Points[k], Points[i]).Vector2;
+                Vector2 v2 = new Line(Points[i], Points[j]).Vector2;
+                double angle  = (Math.PI/180) * (Vector2.Angle(v1, v2) / 2);
+                out_points.Add(new Vertex(Points[i].X + offset * Math.Cos(angle), Points[i].Y + offset * Math.Sin(angle)));
+            }
+            return out_points;
+        }
+
         private static void FindIntersection(Vertex p1, Vertex p2, Vertex p3, Vertex p4,
                   out bool lines_intersect, out bool segments_intersect, out Vertex intersection, out Vertex close_p1, out Vertex close_p2)
         {

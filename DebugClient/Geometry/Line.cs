@@ -10,9 +10,9 @@ namespace DebugClient.Geometry
     {
         public Vertex p0;
         public Vertex p1;
-        public double Length { get{ return Math.Sqrt(Math.Pow(p0.X - p1.X, 2) + Math.Pow(p0.Y - p1.Y, 2)); }
-}
-        public Line (Vertex p0, Vertex p1)
+        public double Length { get { return Math.Sqrt(Math.Pow(p0.X - p1.X, 2) + Math.Pow(p0.Y - p1.Y, 2)); }
+        }
+        public Line(Vertex p0, Vertex p1)
         {
             this.p0 = p0;
             this.p1 = p1;
@@ -62,12 +62,44 @@ namespace DebugClient.Geometry
             );
         }
 
+        public Vector2 Vector2
+        {
+            get
+            {
+                return new Vector2((float)(p1.X - p0.X), (float)(p1.Y - p0.Y));
+            }
+
+        }
+        public double A
+        {
+            get
+            {
+                return p1.Y - p0.Y;
+            }
+        }
+        public double B
+        {
+            get
+            {
+                return p1.X - p0.X;
+            }
+        }
+        public double C
+        {
+            get
+            {
+                return p0.X*p1.Y - p1.X*p0.Y;
+            }
+        }
+
+
         public float Dot(Line line)
         {
             Vector2 a = new Vector2((float)(p1.X - p0.X), (float)(p1.Y - p0.Y));
             Vector2 b = new Vector2((float)(line.p1.X - line.p0.X),(float)(line.p1.Y - line.p0.Y));
             return Vector2.Dot(a, b);
         }
+       
 
     }
 }
